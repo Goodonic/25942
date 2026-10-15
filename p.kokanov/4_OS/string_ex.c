@@ -21,20 +21,27 @@ int main(void) {
                 }
 
                 size_t w = 0;
-                for (size_t f = 0; f < strlen(buffer); ++f) {
-                        if (buffer[f] == '\x1b') {
-                                f++;
-                                if (buffer[f] == '[') { 
-                                        while (buffer[f] != '\0' && (buffer[f] < 'A' || buffer[f] > 'Z') && (buffer[f] < 'a' || buffer[f] > 'z') && buffer[f] != '~') {
-                                                f++;
+                char *read_ptr = buffer;
+
+                while (*read_ptr != '\0') {
+                        if (*read_ptr == '\x1b') {
+                                read_ptr++;
+                                if (*read_ptr == '[') { 
+                                        read_ptr++;
+                                        while (*read_ptr != '\0' && (*read_ptr < 'A' || *read_ptr > 'Z') && (*read_ptr < 'a' || *read_ptr > 'z') && *read_ptr != '~') {
+                                                read_ptr++;
                                         }
-                                        f++;
+                                        if (*read_ptr != '\0') {
+                                                read_ptr++;
+                                        }
                                 }
+                                continue;
                         }
 
-                        if (buffer[f] != '\n' && buffer[f] != '\0') {
-                                buffer[w++] = buffer[f];
+                        if (*read_ptr != '\n' && *read_ptr != '\0') {
+                                buffer[w++] = *read_ptr;
                         }
+                        read_ptr++;
                 }
                 buffer[w] = '\0';
 
@@ -84,3 +91,4 @@ int main(void) {
 
         return 0;
 }
+
