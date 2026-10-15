@@ -143,7 +143,7 @@ int main() {
       break;
     }
 
-    write(1, buffer, line_str);
+    write(STDOUT_FILENO, buffer, line_str);
   }
 
   free(lines);

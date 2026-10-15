@@ -147,7 +147,7 @@ int main() {
       }
 
       while ((bytes_read = read(fd, buffer, BUFFER_SIZE)) > 0) {
-        write(1, buffer, bytes_read);
+        write(STDOUT_FILENO, buffer, bytes_read);
       }
 
       if (bytes_read == -1) {
@@ -189,7 +189,7 @@ int main() {
       break;
     }
 
-    write(1, buffer, line_str);
+    write(STDOUT_FILENO, buffer, line_str);
   }
 
   free(lines);
