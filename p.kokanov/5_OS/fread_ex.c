@@ -101,6 +101,11 @@ int main() {
     }
   }
 
+  printf("----------------------------------------\n\tOffset table\n----------------------------------------\n");
+  for (size_t i = 0; i < line_count; ++i) {
+	  printf("\tLine number: %lu; offset value: %zu, length: %lu\n", i + 1, lines[i].offset, lines[i].len);
+  }
+
   int num;
   while (1) {
     printf("Line number (0 to exit): ");
