@@ -105,6 +105,7 @@ int main() {
   for (size_t i = 0; i < line_count; ++i) {
 	  printf("\tLine number: %lu; offset value: %zu, length: %lu\n", i + 1, lines[i].offset, lines[i].len);
   }
+  printf("----------------------------------------\n\n");
 
   int num;
   while (1) {
@@ -112,7 +113,11 @@ int main() {
 
     if (scanf("%d", &num) != 1) {
       printf("No number was inputed!\n");
-      break;
+
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+
+      continue;
     }
 
     if (num == 0) {

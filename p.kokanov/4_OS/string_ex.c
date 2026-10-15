@@ -22,10 +22,10 @@ int main(void) {
 
                 size_t w = 0;
                 for (size_t f = 0; f < strlen(buffer); ++f) {
-                        if (buffer[f] == '\e') {
+                        if (buffer[f] == '\x1b') {
                                 f++;
                                 if (buffer[f] == '[') { 
-                                        while (buffer[f] != '\0' && (buffer[f] <= 'A' || buffer[f] >= 'Z') && (buffer[f] <= 'a' || buffer[f] >= 'z') && buffer[f] != '~') {
+                                        while (buffer[f] != '\0' && (buffer[f] < 'A' || buffer[f] > 'Z') && (buffer[f] < 'a' || buffer[f] > 'z') && buffer[f] != '~') {
                                                 f++;
                                         }
                                         f++;

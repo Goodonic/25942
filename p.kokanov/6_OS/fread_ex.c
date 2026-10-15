@@ -121,15 +121,22 @@ int main() {
     return EXIT_FAILURE;
   }
 
+  _Bool is_first = 1;
   int num;
   while (1) {
-    printf("Line number (0 to exit, the whole file will be printed in 5 seconds): ");
+    printf("Line number (0 to exit): ");
 
-    alarm(5);
+    if (is_first) {
+	printf("the whole file will be printed out in 5 seconds... ");
+    	alarm(5);
+    }
 
     int res = scanf("%d", &num);
-
-    alarm(0);
+	
+    if (is_first) {
+    	alarm(0);
+	is_first = 0;
+    }
 
     if (timeout_hit) {
       printf("\nTime is up! The whole file:\n");
@@ -152,7 +159,11 @@ int main() {
 
     if (res != 1) {
       printf("No number was inputed!\n");
-      break;
+      
+      int c;
+      while ((c = getchar()) != '\n' && c != EOF);
+
+      continue;
     }
 
     if (num == 0) {
