@@ -42,3 +42,4 @@ int main(void) {
   puts(buffer);
   return EXIT_SUCCESS;
 }
+//TODO Переделать вручную
