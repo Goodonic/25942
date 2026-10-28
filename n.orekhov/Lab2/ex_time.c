@@ -1,45 +1,29 @@
-#define _POSIX_C_SOURCE 200809L
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
 int main(void) {
-#ifdef _WIN32
-  if (_putenv_s("TZ", "PST8") != 0) {
-#else
-    if (setenv("TZ", "PST8", 1) != 0) {
-#endif
-    perror("TZ");
-    return EXIT_FAILURE;
-  }
+    time_t now;
+    struct tm *current_time;
 
 #ifdef _WIN32
-  _tzset();
+    _putenv_s("TZ", "PST8");
+    _tzset();
 #else
-  tzset();
+    setenv("TZ", "PST8", 1);
+    tzset();
 #endif
 
-  time_t now = time(NULL);
-  if (now == (time_t) -1) {
-    perror("time");
-    return EXIT_FAILURE;
-  }
+    time(&now);
+    current_time = localtime(&now);
 
-  struct tm *california_time = localtime(&now);
-  if (california_time == NULL) {
-    perror("localtime");
-    return EXIT_FAILURE;
-  }
+    printf("%04d-%02d-%02d %02d:%02d:%02d PST\n",
+           current_time->tm_year + 1900,
+           current_time->tm_mon + 1,
+           current_time->tm_mday,
+           current_time->tm_hour,
+           current_time->tm_min,
+           current_time->tm_sec);
 
-  char buffer[64];
-  if (strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S PST",
-               california_time) == 0) {
-    fputs("Could not format time\n", stderr);
-    return EXIT_FAILURE;
-  }
-
-  puts(buffer);
-  return EXIT_SUCCESS;
+    return 0;
 }
-//TODO Переделать вручную
